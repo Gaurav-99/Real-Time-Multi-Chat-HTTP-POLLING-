@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="/chatroom.css">
+    <script>
+
+
+        function redirectToUrl(url) {
+            window.location.href = url;
+        }
+        function getCookie(name) {
+            console.log(name, document.cookie);
+            var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+            return match ? match[1] : null;
+        }
+        var initChecks = function () {
+            let cookie = getCookie('id');
+            if (cookie === null) {
+                redirectToUrl('../');
+            }
+        }();
+
+        var index = 1;
+        const server_ip = location.host.split(':')[0];
+        const server_port = "8080";
+
+
+        function addMessageElement(from, message) {
+            var div = document.createElement("div");
+            if (from === getCookie('id')) {
+                div.className = "container darker";
+                div.style.textAlign = "right";
+            } else {
+                div.className = "container";
+            }
+            div.style.fontSize = "20px";
+            div.innerHTML = `<p class="username"> <b>${from}</b> </p class="usermessage"> <p> ${message}</p>`;
+            console.log(div.innerHTML);
+            var chatbox = document.getElementById("chat-box");
+            chatbox.appendChild(div);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        async function getMessage() {
+            let url = "http://" + server_ip + ":" + server_port + "/getmessage";
+            let data = { 'from': getCookie('id'), 'index': index };
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            const json = await res.json();
+            return json;
+
+        }
+
+        async function updateMessagesFromServer() {
+            let messages = await getMessage();
+
+            messages.forEach(function (ele) {
+                console.log("data:", ele);
+                index = ele.id;
+                addMessageElement(ele.from, ele.message);
+            });
+
+        }
+        function messageCallLoop(timeout) {
+            setInterval(updateMessagesFromServer, timeout);
+
+        }
+
+        async function sendMessage(message) {
+
+            let url = "http://" + server_ip + ":" + server_port + "/sendmessage";
+            let data = { 'from': getCookie('id'), 'message': message };
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            console.log(message);
+
+        }
+
+    </script>
+</head>
+
+<body>
+    <h1 class="app-title">Chat Box</h1>
+
+    <div class="chat-wrapper">
+        <div id="chat-box">
+
+        </div>
+
+        <div class="send-message">
+            <form action="javascript:sendMessage(message.value)">
+                <input name="message" id="message" type="text" class="User-message" placeholder="Enter message"
+                    required>
+                <input type="submit" class="submit-btn">
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    messageCallLoop(6000);
+</script>
+
+</html>

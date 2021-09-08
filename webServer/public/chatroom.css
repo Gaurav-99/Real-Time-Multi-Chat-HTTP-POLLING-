@@ -1,0 +1,115 @@
+body {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 0 20px;
+  background-color: #999;
+}
+
+.container {
+  border: 2px solid #dedede;
+  background-color: #2012e0;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.container p {
+    color: white;
+    font-size: 1rem;
+    border-radius: 10px;
+
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: rgb(1, 12, 59);
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.username {
+    margin-left: 10px ;
+    margin-right: 10px ;
+
+}
+
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.container img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.container img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right: 0;
+}
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
+
+
+.send-message {
+  position: absolute;
+  width: 200px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.send-message form {
+  border: 0;
+  display: flex;
+  flex-direction: row;
+}
+.User-message {
+  width: 750px;
+  height: 63px;
+  font-size: 1.5rem;
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+.submit-btn {
+  width: 200px;
+  height: 75px;
+  font-size: 2rem;
+  border-color: black;
+  border-radius: 5px;
+}
+.submit-btn:hover {
+    background-color: rgb(200, 187, 187);
+}
+
+#chat-box {
+  float: left;
+  width: 1000px;
+  overflow-y: auto;
+  height: 750px;
+  background-color: cornflowerblue;
+  border-radius: 5px;
+
+}
+.app-title {
+  text-align: center;
+  color: rgb(63, 49, 97);
+  font-size: 3rem;
+  font-weight: 900;
+}

@@ -1,0 +1,54 @@
+body {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 0 20px;
+  background-color: #999;
+}
+
+h1 {
+  font-size: 4rem;
+  text-align: center;
+  font-weight: 900;
+  color: black;
+  margin-top: 200px;
+}
+
+.input-detail form {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    padding: auto;
+}
+.name {
+  width: 750px;
+  height: 63px;
+  font-size: 2rem;
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+
+.submit-btn {
+    width: 200px;
+    height: 75px;
+    font-size: 2rem;
+    border-color: black;
+    border-radius: 5px;
+  }
+  .submit-btn:hover {
+      background-color: rgb(200, 187, 187);
+  }
+
+  @media (max-width:600px) {
+      h1 {
+          font-size: 3rem;
+          text-align: center;
+      }
+      .submit-btn {
+        width: 100px;
+        height: 75px;
+        font-size: 2rem;
+        border-color: black;
+        border-radius: 5px;
+      }
+
+  }

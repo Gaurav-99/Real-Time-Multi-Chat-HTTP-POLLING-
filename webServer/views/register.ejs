@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Chat</title>
+
+    <link rel="stylesheet" href="/register.css">
+
+    <script type="text/javascript">
+
+        const server_ip = location.host.split(':')[0];
+        const server_port = "8080";
+        console.log(ip);
+
+
+        function redirectToUrl(url) {
+            window.location.href = url;
+        }
+
+        function getCookie(name) {
+            console.log(name, document.cookie);
+            var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+            return match ? match[1] : null;
+        }
+
+
+        var init = function () {
+            console.log('init');
+            let cookie = getCookie('id');
+            if (cookie === null) {
+                return;
+            }
+            redirectToUrl('../chat');
+
+        }();
+
+        function handleIt() {
+            let url = "http://" + server_ip + ":" + server_port + "/register";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url);
+
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    console.log(xhr.status);
+                    console.log('hi');
+                    let data = JSON.parse(xhr.responseText);
+                    console.log(data["id"]);
+                    setCookie('id', data["id"]);
+                    redirectToUrl('../chat');
+
+                }
+            };
+            var formData = new FormData(document.querySelector('form'));
+            console.log(formData.get('username'));
+            let name = formData.get('username');
+            var data = {
+                "name": name
+            };
+            console.log(data);
+
+            xhr.send(JSON.stringify(data));
+        }
+
+        function setCookie(key, value) {
+            document.cookie = `${key}=${value}; Set-Cookie: flavor=choco; SameSite=None; Secure`;
+            console.log(document.cookie);
+        }
+
+
+
+
+    </script>
+
+</head>
+
+<body>
+
+    <h1>Register yourself</h1>
+    <div class="input-detail">
+        <form action="javascript:handleIt()">
+            <input name="username" type="text" class="name" placeholder="Enter your Name" required>
+            <input type="submit" class="submit-btn">
+        </form>
+    </div>
+
+</body>
+
+</html>
